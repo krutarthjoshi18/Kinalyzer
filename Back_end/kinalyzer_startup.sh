@@ -1,3 +1,3 @@
 #!/bin/bash
 cd /opt/kinalyzer/
-/usr/bin/perl kinalyzer_scheduler.pl 
+taskset -cp 25,27 /usr/bin/perl kinalyzer_scheduler.pl 

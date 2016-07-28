@@ -7,12 +7,18 @@ use IO::Handle;
 #Daemon log
 my $log_handle;
 
+#Kinalyzer database
+my $dsn = 'DBI:mysql:kinalyzer:192.168.102.2';
+my $db_username = 'kinalyzer';
+my $db_password = 'OMDHaF!';
+
+
 sub main() {
 
 	#Kinalyzer database	
-	my $dsn = 'DBI:mysql:kinalyzer:192.168.102.2';
-	my $db_username = 'kinalyzer';
-	my $db_password = 'OMDHaF!';
+	# my $dsn = 'DBI:mysql:kinalyzer:192.168.102.2';
+	# my $db_username = 'kinalyzer';
+	# my $db_password = 'OMDHaF!';
 
 	#Open kinalyzer log file	
 	open $log_handle, ">> ./log_file.txt" or die;
@@ -69,6 +75,7 @@ sub main() {
 						system("./sets test $loci temp.txt output 2>>./err.txt");
 						if(not -e "output.gms") {
 	                               			status("output.gms not found");
+							updateAndSendErrorMsg();
 							next;
 	                       			}
 						else{
@@ -77,7 +84,8 @@ sub main() {
 							system("/opt/gams/24.0.2/gams output.gms 2>>./err.txt");
 							if(not -e "output.lst") {
 	                                       			status("output.lst not found");
-        	                       				next;
+        	                       				updateAndSendErrorMsg();
+								next;
 							}	
 							else {
 								#Extract solution from ILP result
@@ -85,14 +93,15 @@ sub main() {
 								system("/usr/bin/perl ./extract-solution-param.pl output.lst 2>>./err.txt");
 								if(not -e "output.sol") {
 			                                        	status("output.sol not found");
-                                       					next;
+                                       					updateAndSendErrorMsg();
+									next;
 								}
 								else{
 									#Write final solution
 									status("output.sol found. Running write-solution.pl"); 
        				                                        system("/usr/bin/perl ./write-solution.pl -i output -s output.sol -o output.soln 2>>err.txt");
 			 	                                        if(not -e "output.soln") {
-			                                                	status("output.soln not found");
+			                                                	status("output.soln not found after write-solution");
                                                				}
 			 	                                        else    {
 										#Store solution into the database
@@ -191,7 +200,7 @@ sub main() {
 					#Prepare output mail
 					status("Send mail to $user at $email");
 		        		$sendmail = "/usr/sbin/sendmail -t";
-		                        $reply_to = "Reply-to: tanyabw\@uic.edu,mmaggi3\@uic.edu\n";
+		                        $reply_to = "Reply-to: kinalyzer\@cs.uic.edu\n";
 					$send_to = "To: ".$email."\n";
 		                        if ($algorithm==0){
 						$algo = "2 allele";
@@ -205,7 +214,7 @@ sub main() {
 						$content = $content."Output:\n".$result;
 					}
 					else{
-						$content = $content."Output:\nThere were some errors and the solution could not be computed.";
+						$content = $content."Output:\n Unfortunately, we encountered an error in computing output for your job $id submitted at $time, for $loci loci and $population individuals.\n\n Kinalyzer has been notified. Please follow up with kinalyzer\@cs.uic.edu .\n\n";
 					}
 		                 	$from = "From: Kinalyzer <kinalyzer\@pachy.cs.uic.edu>\n";
 		                       	$subject = "Subject: Kinalyzer output for $user, request id= $id\n";
@@ -236,4 +245,54 @@ sub status {
         print $log_handle "$tm @_\n";
 }
 
+sub updateAndSendErrorMsg {
+
+        #Store error state into the database
+        status("Error in computing solution for job [$id]");
+        
+        #Connect to database
+        my $dbh = DBI->connect($dsn, $db_username, $db_password);
+        if (!$dbh){
+		status("In updateAndSendErrorMsg. Cannot connect to Database");
+                status("DBI->errstr");
+       }
+       else
+       {
+        
+        	$update = $dbh->prepare("UPDATE requests SET state=2 WHERE id= $id");
+	        $update->execute();
+        	status("Updated state=2 (Failed)  in database for job [$id]");
+
+	        #Prepare output mail
+        	status("Sending mail to $user at $email");
+	        $sendmail = "/usr/sbin/sendmail -t";
+        	$reply_to = "Reply-to: kinalyzer\@cs.uic.edu\n";
+	        $send_to = "To: ".$email."\n";
+                $bcc = "Bcc: tanyabw\@uic.edu\n";
+        	if ($algorithm==0){
+                	$algo = "2 allele";
+        	}
+	        elsif($algorithm==1){
+        	        $algo = "consensus";
+        	}
+	        $content = "Hi $user! \n\nThank you for using Kinalyzer to run $algo algorithm.\n Unfortunately, we encountered an error in computing output for your job $id submitted at $time, for $loci loci and $population individuals.\n\n Kinalyzer has been notified. Please follow up with kinalyzer\@cs.uic.edu .\n\n";
+
+        	# $content = $content."Output:\nThere were some errors and the solution could not be computed.\nKindly contact kinalyzer\@cs.uic.edu .";
+
+	        $from = "From: Kinalyzer <kinalyzer\@pachy.cs.uic.edu>\n";
+        	$subject = "Subject: Kinalyzer output for $user, request id= $id\n";
+
+	        #Send mail
+        	open(SENDMAIL, "|$sendmail") or die "Cannot open $sendmail: $!";
+	        print SENDMAIL $from;
+        	print SENDMAIL $reply_to;
+	        print SENDMAIL $subject;
+        	print SENDMAIL $send_to;
+        	print SENDMAIL $bcc;
+	        print SENDMAIL "Content-type: text/plain\n\n";
+        	print SENDMAIL $content;
+	        close(SENDMAIL);
+		status("Mail sent to $user at $email for failed job [$id].");
+	}
+}
 
