@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Kinalyzer - The Kinship Analyzer</title>
+
+<meta http-equiv="content-type" content="text/html; charset=iso-8859-1">
+<link href="css.css" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+<div id="Container">
+<div id="Header"><img src="images/logo2.jpg"></div>
+<div id="Menu" class="clearfix">
+	<ul>
+	<li><a href="index.html">Home / Kinalyze Now</a></li>
+	<li><a href="status.html">Check Status </a></li>
+	</ul>
+</div>
+
+<div id="Wrapper">
+<div id="Content">
+<p><FORM ACTION="cgi-bin/prepare_upload.cgi" METHOD="post" ENCTYPE="multipart/form-data"><br>
+<b>Input file to Upload: </b><INPUT TYPE="file" NAME="input_file"> 
+(<a href=sampledata.html>Sample data</a>)<br><br>
+<b>Your name: </b><INPUT TYPE="text" NAME="user"><br><br>
+<b>Email address: </b><INPUT TYPE="text" NAME="email"><br><br>
+<b>Algorithm to run: 
+     <label><input name="algo" type="radio" value="2allele" checked> 2 allele</label><br> <br>
+</b>
+<INPUT TYPE="submit" NAME="Kinalyze" VALUE="Kinalize"></FORM></p>
+</div>
+</div>
+
+<div id="Sidebar">
+
+<h1>Kinalyze Now!</h1>
+<div id="Sidebar-bar"></div>
+</div>
+
+<div id="Subcontent">
+   <div id="Subcontent-wrapper">
+   <div id="Subcontent-Image"><img src="images/footer_bird2.jpg" alt="Chick Logo"></div>
+   <div id="Subcontent-Text">
+   <p><h1>About Kinalyzer:</h1>Kinalyzer is a software suite developed to reconstruct sibling groups using genotypes from codominant markers such as microsatellites. Currently there are two algorithms available to reconstruct full-sibling groups for cases where parental genotypes are not available. Kinalyzer uses combinatorial optimization based on Mendelian inheritance rules to find the fewest number of sibling groups that contain all the individuals in the sample (&#8216;2-allele set cover&#8217;).</a></p>		
+<p><h1>Citation:</h1>
+   If you publish results using analysis performed by Kinalyzer please acknowledge it by the following citations:</p>
+
+  <p><cite>T.Y. Berger-Wolf, S.I. Sheikh, B. DasGupta, M.V. Ashley, I.C. Caballero, W. Chaovalitwongse, S.L. Putrevu, <b>"Reconstructing Sibling Relationships in Wild Populations"</b>, Bioinformatics, 23(13), 49-56, 2007 <br>
+  S.I. Sheikh, T.Y. Berger-Wolf, M.V. Ashley, I.C. Caballero, W. Chaovalitwongse and B. DasGupta <b>"Error-Tolerant Sibship Reconstruction for Wild Populations"</b>, International Conference on Computational Systems Biology, 7, 273-284, 2008</cite></p>
+  </div>
+  </div>
+</div>
+
+<div id="Footer"><p>Copyright &copy; 2015 The Board of Trustees of the University of Illinois</p></div>
+</div>
+</body>
+</html>
