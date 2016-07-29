@@ -67,7 +67,7 @@
                     <div class="pageWidth">
                         <div class="aboutUs">
                             <h2>About the Kinalyzer</h2>
-                            <p>Kinalyzer is a sofware suite developed to reconstruct sibling groups using genotypes from codominant markers such as microsatellites. Currently there are two algorithms available to reconstruct full-sibling groups for cases where parental genotypes are not available. Kinalyzer uses combinatorial optimization based on Mendelian inheritance rules to find the fewest number of sibling groups that contain all the individuals in the sample ('2-allele set cover'). Also available is a 'concensus' method that reconstructs sibgroups using subsets of loci and finds the consensus of these different solutions. A sample dataset can be found <a href="sample-data/samplefile1.txt">here</a>.</p>
+                            <p>Kinalyzer is a sofware suite developed to reconstruct sibling groups using genotypes from codominant markers such as microsatellites. Currently there are two algorithms available to reconstruct full-sibling groups for cases where parental genotypes are not available. Kinalyzer uses combinatorial optimization based on Mendelian inheritance rules to find the fewest number of sibling groups that contain all the individuals in the sample '2-allele set cover'. Also available is a 'Consensus' method that reconstructs sibgroups using subsets of loci and finds the consensus of these different solutions. A sample dataset can be found <a href="sample-data/samplefile1.txt">here</a>.</p>
                         </div>
                         <br class="clear">
                     </div>
