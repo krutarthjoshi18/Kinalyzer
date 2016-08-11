@@ -158,7 +158,23 @@ h2 {
     margin-right: 10px;
 }
 
+.gettingStartedLink span {
+    display: block;
+    float: left;
+    background: url(../images/gettingStarted.png) no-repeat;
+    width: 16px;
+    height: 16px;
+    margin-top: 12px;
+    margin-right: 10px;
+
+}
+
+
 .homeLink span {
+    background-position: 0 0;
+}
+
+.gettingStartedLink span {
     background-position: 0 0;
 }
 
@@ -775,7 +791,7 @@ tbody td {
     font-weight: bold;
 }
 
-.publications h1, .status h1, .about h1 {
+.publications h1, .status h1, .about h1, .gettingStarted h1 {
     color: #3a6624;
 }
 
@@ -784,10 +800,40 @@ tbody td {
     line-height: 22px;
 }
 
+.gettingStarted p {
+    font-size: 14px;
+    line-height: 22px;
+}
+
+.gettingStarted {
+    line-height: 18px;
+}
+
+.gettingStarted b {
+    font-weight: bold;
+}
+
+.gettingStarted i {
+    font-style: italic;
+}
+
+.gettingStarted a {
+    text-decoration: none;
+    color: #444;
+    font-weight: bold;
+}
+
 .publications ul li {
     padding-left: 20px;
 }
 
+.gettingStarted ul li {
+    padding-left: 20px;
+}
+
+.gettingStarted ol li {
+    padding-left: 20px;
+}
 
 /* unvisited link */
 a:link {
