@@ -49,21 +49,19 @@ Animal13,230,346,173,175,161,189,-1,-1,-1,-1,133,141<br>
     <br>
     <ol>
         <li>
-        1. The first line is a header with the word Loci followed by locus identifiers with an a and a b for each, indicating the two alleles identified at the locus. <br><br>
+        1. The first line is a header with the word Loci followed by locus identifiers with an 'a' and a 'b' for each, indicating the two alleles identified at the locus. <br><br>
         </li>
         <li>
         2. In the following lines, the first column is the sample identifier, followed by two allele values for each of the loci, separated by commas.  Either two digit or three digit allele values are acceptable. Missing values should be coded as negative one <b>(-1).</b><br><br>
         </li>
         <li>
-        3. Kinalyzer accepts .csv files.<br><br>
+        3. Kinalyzer accepts comma separated files (csv).<br><br>
         </li>
     </ol>
 
-    <p><b>Sample Input Files:</b></p>
-    <ol>
-        <li><a href="sample-data/samplefile1.txt">SampleFile_1.txt</a> <br></li>
-        <li><a href="sample-data/samplefile2.txt">SampleFile_2.txt</a><br></li>
-    </ol>
+    <p>
+    <b>Sample Input File:</b>  <a target='_blank' href="sample-data/samplefile1.txt">SampleFile.csv</a> 
+    </p>
 
     <br>
     <br>
