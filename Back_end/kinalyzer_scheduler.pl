@@ -108,7 +108,7 @@ sub main() {
 	                                                       			status("output.soln found");
 			 
 										#Copy solution into a temporary variable
-										open FILE, "output.soln" or die "Couldn't open file: $!";
+										open FILE, "output.soln" or die "Couldn't open output.soln file: $!";
 										$temp_result = join("", <FILE>);
 										close(FILE);							
 													
@@ -141,12 +141,20 @@ sub main() {
 						system("./sets autogreedyconsensus $loci temp.txt 2>>./err.txt");
 						
 						#Copy solution into a temporary variable
-                                                open FILE, "consensus_temp.txt" or die "Couldn't open file: $!";
+                                               if(not -e "consensus_temp.txt") {
+                                                      status("consensus_temp.txt not found");
+                                                      updateAndSendErrorMsg();
+                                                      next;
+                                                }
+                                                else {
+
+                                                open FILE, "consensus_temp.txt" or die "Couldn't open consensus_temp.txt file: $!";
                                                 $temp_result = join("", <FILE>);
                                                 close(FILE);
 						
 						#Delete temporary files
-                                                system("rm *temp.txt*");					
+                                                system("rm *temp.txt*");
+						}					
 					}
 
 					#Check if valid solution
